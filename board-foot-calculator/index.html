@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="acZbWTTvt-mkPYb58Hbv4TVoSZ19ssJBCVC_kjmyM6U" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumber Board Foot Calculator | Free Woodworking Volume Tool</title>
+    
+    <meta name="description" content="Calculate lumber board feet (BDFT) instantly for your woodworking and carpentry projects. Free, accurate calculator with pricing estimation.">
+    <meta name="author" content="Dharmendra Singh">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://sochcoremindset-del.github.io/dmtools/board-foot-calculator/" />
+
+    <meta property="og:title" content="Lumber Board Foot Calculator | Free Woodworking Volume Tool" />
+    <meta property="og:description" content="Calculate lumber board feet (BDFT) instantly for your woodworking and carpentry projects. Free, accurate calculator with pricing estimation." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sochcoremindset-del.github.io/dmtools/board-foot-calculator/" />
+    <meta property="og:image" content="https://github.com/sochcoremindset-del.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Lumber Board Foot Calculator" />
+    <meta name="twitter:description" content="Calculate lumber board feet instantly." />
+    <meta name="twitter:image" content="https://github.com/sochcoremindset-del.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+       .modal-active { display: flex!important; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph":
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://sochcoremindset-del.github.io/dmtools/board-foot-calculator/#breadcrumb",
+          "itemListElement":
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://sochcoremindset-del.github.io/dmtools/board-foot-calculator/#faq",
+          "mainEntity":
+        }
+      ]
+    }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800">
+
+    <header class="bg-white border-b border-slate-200 py-4 px-6 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-amber-700 flex items-center">
+                <span class="mr-2">🪚</span> DMTools Woodworking
+            </h1>
+            <span class="bg-amber-50 text-amber-800 text-xs px-3 py-1.5 rounded-full font-semibold border border-amber-200">100% Free Utility</span>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-4xl mx-auto px-4 py-8">
+        
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Lumber Board Foot Calculator</h2>
+            <p class="text-sm md:text-base text-slate-600 mt-3 max-w-2xl mx-auto">Stop guessing at the lumber yard. Accurately calculate the volume and total cost of your rough or milled hardwood boards in seconds.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6 md:p-8 mb-12">
+            <form id="bf-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div>
+                        <label for="thickness" class="block text-sm font-bold text-slate-700 mb-2">Thickness (inches)</label>
+                        <input type="number" id="thickness" placeholder="e.g. 1.5" step="0.25" min="0.01" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-slate-50 transition" required>
+                        <p class="text-[10px] text-slate-400 mt-1">Use nominal (e.g., 1.5 for 6/4)</p>
+                    </div>
+                    <div>
+                        <label for="width" class="block text-sm font-bold text-slate-700 mb-2">Width (inches)</label>
+                        <input type="number" id="width" placeholder="e.g. 6" step="0.1" min="0.01" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-slate-50 transition" required>
+                    </div>
+                    <div>
+                        <label for="length" class="block text-sm font-bold text-slate-700 mb-2">Length (feet)</label>
+                        <input type="number" id="length" placeholder="e.g. 8" step="0.5" min="0.01" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-slate-50 transition" required>
+                    </div>
+                    <div>
+                        <label for="quantity" class="block text-sm font-bold text-slate-700 mb-2">Quantity (boards)</label>
+                        <input type="number" id="quantity" value="1" min="1" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-slate-50 transition" required>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-100 pt-6 mt-2">
+                    <label for="price" class="block text-sm font-bold text-slate-700 mb-2">Price per Board Foot ($) <span class="font-normal text-slate-400">- Optional</span></label>
+                    <div class="relative w-full md:w-1/3">
+                        <span class="absolute left-4 top-3.5 text-slate-500 font-bold">$</span>
+                        <input type="number" id="price" placeholder="0.00" step="0.01" min="0" class="w-full pl-8 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-slate-50 transition">
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button type="button" onclick="calculateBF()" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition duration-200 transform active:scale-95 text-lg">
+                        Calculate Board Feet
+                    </button>
+                    <button type="button" onclick="resetCalc()" class="sm:w-32 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3.5 px-6 rounded-xl transition duration-200">
+                        Reset
+                    </button>
+                </div>
+            </form>
+
+            <div id="result-box" class="hidden mt-8 bg-amber-50 border-2 border-amber-200 rounded-xl p-6">
+                <h3 class="text-sm font-bold text-amber-800 uppercase tracking-widest mb-4">Calculation Results</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-amber-100">
+                        <span class="text-xs text-slate-500 font-semibold uppercase">Total Volume</span>
+                        <div class="text-4xl font-black text-slate-900 mt-1"><span id="out-bf">0.00</span> <span class="text-lg text-slate-500 font-medium">bd ft</span></div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-amber-100">
+                        <span class="text-xs text-slate-500 font-semibold uppercase">Estimated Cost</span>
+                        <div class="text-4xl font-black text-emerald-600 mt-1"><span class="text-2xl">$</span><span id="out-cost">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <article class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-10 space-y-8">
+            <div class="border-b border-slate-100 pb-6">
+                <h2 class="text-2xl font-extrabold text-slate-900 mb-4">Understanding Board Feet: The Ultimate Guide for Woodworkers</h2>
+                <p class="text-slate-600 leading-relaxed">If you've ever walked into a hardwood lumber yard in the US, you quickly realize they don't sell wood quite like the big box home centers do. Instead of pricing a piece of wood by the linear foot, rough hardwood is sold by volume. This specific measurement of volume is called a <strong>board foot</strong> (often abbreviated as BDFT or BF). Whether you are an experienced furniture maker, a general contractor, or a DIY weekend warrior, knowing how to calculate your board footage before stepping up to the cash register will save you time, confusion, and a whole lot of money.</p>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-slate-900">What Exactly is a Board Foot?</h3>
+                <p class="text-slate-600 leading-relaxed">A board foot is a specialized unit of measurement for lumber volume in North America. Simply put, one board foot is equal to a piece of wood that is exactly <strong>12 inches long, 12 inches wide, and 1 inch thick</strong>. Mathematically, that equates to 144 cubic inches of wood.</p>
+                <p class="text-slate-600 leading-relaxed">The reason this measurement exists is because hardwood lumber is a three-dimensional material that comes in completely random widths and lengths. A board that is 1" thick, 6" wide, and 24" long contains the exact same amount of wood volume (one board foot) as a board that is 1" thick, 12" wide, and 12" long. Pricing wood by volume ensures you are paying a fair price for the actual yield of the tree, regardless of the board's unique shape.</p>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-slate-900">The Board Foot Formula</h3>
+                <p class="text-slate-600 leading-relaxed">You don't need a math degree to figure out your lumber needs. The standard industry formula is incredibly straightforward:</p>
+                <div class="bg-slate-50 border-l-4 border-amber-500 p-4 rounded-r-lg my-4">
+                    <p class="font-mono text-slate-800 font-bold">Board Feet = (Thickness in inches &times; Width in inches &times; Length in feet) &divide; 12</p>
+                </div>
+                <p class="text-slate-600 leading-relaxed"><em>Note: If you prefer to measure your length in inches instead of feet, you simply divide the total by 144 instead of 12. Both equations will give you the exact same result.</em></p>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-slate-900">Nominal vs. Actual Dimensions</h3>
+                <p class="text-slate-600 leading-relaxed">The biggest mistake beginners make when calculating board feet is using the <em>actual</em> surfaced dimensions of the wood rather than the <em>nominal</em> dimensions. Lumber mills price wood based on the rough size of the board before it goes through the planer or jointer.</p>
+                <p class="text-slate-600 leading-relaxed">For example, if you buy a standard 2x4 stud at the hardware store, it actually measures 1.5 inches by 3.5 inches. However, when calculating board feet, you must use the nominal "2" and "4". Furthermore, hardwood thickness is traditionally expressed in quarters of an inch. A 1-inch thick rough board is called "4/4" (four-quarters). A 1.5-inch board is "6/4", and a 2-inch board is "8/4". When entering thickness into our calculator above, use the nominal decimal equivalent (e.g., enter 1.5 for 6/4 lumber).</p>
+            </div>
+
+            <div class="border-t border-slate-100 pt-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-bold text-slate-800">What is the difference between a linear foot and a board foot?</h4>
+                        <p class="text-sm text-slate-600 mt-1">A linear foot measures only the length of the board (a straight 12-inch line), ignoring how wide or thick the piece is. A board foot measures the total 3D volume of the board. Softwoods and trim moldings are usually sold by the linear foot, while rough hardwoods are sold by the board foot.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-800">Should I account for waste when buying lumber?</h4>
+                        <p class="text-sm text-slate-600 mt-1">Yes, absolutely. Because rough lumber often has knots, checks, or sapwood that you'll need to cut away, standard shop practice is to calculate your final project's required board footage and then add a 20% to 30% waste factor to your purchase order.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <div class="mt-8 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center">
+                <span class="mr-2">🔗</span> Explore More Professional Tools
+            </h3>
+            <div class="flex flex-col md:flex-row gap-4">
+                <a href="https://sochcoremindset-del.github.io/dmtools/" class="flex-1 bg-slate-50 border border-slate-200 p-4 rounded-xl hover:bg-amber-50 hover:border-amber-200 transition">
+                    <h4 class="font-bold text-slate-800">Chronological Age Calculator</h4>
+                    <p class="text-xs text-slate-500 mt-1">Precise Y-M-D age calculator for clinical and educational assessments.</p>
+                </a>
+                <a href="https://sochcoremindset-del.github.io/dmtools/invoice-generator/" class="flex-1 bg-slate-50 border border-slate-200 p-4 rounded-xl hover:bg-amber-50 hover:border-amber-200 transition">
+                    <h4 class="font-bold text-slate-800">Freelance Invoice Generator</h4>
+                    <p class="text-xs text-slate-500 mt-1">Create and export PDF invoices directly in your browser. No sign-up required.</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="mt-8 bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
+            <img src="https://github.com/sochcoremindset-del.png" alt="Dharmendra Singh" class="w-20 h-20 rounded-full object-cover shadow-md border-2 border-amber-200 select-none">
+            <div class="text-center md:text-left space-y-2">
+                <span class="text-[10px] font-bold text-amber-600 uppercase tracking-widest bg-amber-100 px-2 py-1 rounded">Independent Tool Developer</span>
+                <h4 class="text-xl font-bold text-slate-900">Dharmendra Singh</h4>
+                <p class="text-slate-600 text-sm leading-relaxed max-w-2xl">
+                    Dharmendra Singh is a specialized web developer and the founder of DMTools. He builds lightweight, offline-first, and highly accurate calculation utilities designed to automate and simplify daily workflows for professionals, contractors, and DIYers.
+                </p>
+                <div class="pt-2 flex justify-center md:justify-start space-x-4 text-sm text-amber-700 font-semibold">
+                    <a href="https://github.com/sochcoremindset-del" target="_blank" rel="noopener noreferrer" class="hover:underline">GitHub Profile</a>
+                    <span>•</span>
+                    <span>Built for US Woodworkers</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-10 mt-auto text-center text-xs">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-6">
+                <button type="button" onclick="openModal('about')" class="hover:text-white font-medium transition focus:outline-none">About Us</button>
+                <button type="button" onclick="openModal('privacy')" class="hover:text-white font-medium transition focus:outline-none">Privacy Policy</button>
+                <button type="button" onclick="openModal('disclaimer')" class="hover:text-white font-medium transition focus:outline-none">Disclaimer</button>
+                <button type="button" onclick="openModal('contact')" class="hover:text-white font-medium transition focus:outline-none">Contact Us</button>
+            </div>
+            <p>© 2026 DMTools Woodworking. Created by Dharmendra Singh. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div id="pageModal" class="fixed inset-0 bg-slate-900 bg-opacity-60 z-50 items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full max-h-[80vh] flex flex-col shadow-2xl">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                <h3 id="modalTitle" class="text-lg font-bold text-slate-900">Page</h3>
+                <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-slate-600 text-2xl font-bold focus:outline-none">&times;</button>
+            </div>
+            <div id="modalBody" class="p-6 overflow-y-auto text-sm text-slate-600 space-y-4 leading-relaxed"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateBF() {
+            const t = parseFloat(document.getElementById('thickness').value);
+            const w = parseFloat(document.getElementById('width').value);
+            const l = parseFloat(document.getElementById('length').value);
+            const q = parseFloat(document.getElementById('quantity').value) || 1;
+            const p = parseFloat(document.getElementById('price').value) || 0;
+
+            if (Number.isNaN(t) || Number.isNaN(w) || Number.isNaN(l) || t <= 0 || w <= 0 || l <= 0) {
+                alert("Please enter valid numbers greater than zero for thickness, width, and length.");
+                return;
+            }
+
+            const boardFeetPerPiece = (t * w * l) / 12;
+            const totalBoardFeet = boardFeetPerPiece * q;
+            const totalCost = totalBoardFeet * p;
+
+            document.getElementById('out-bf').innerText = totalBoardFeet.toFixed(2);
+            document.getElementById('out-cost').innerText = totalCost.toFixed(2);
+            
+            document.getElementById('result-box').classList.remove('hidden');
+            document.getElementById('result-box').classList.add('block');
+        }
+
+        function resetCalc() {
+            document.getElementById('bf-form').reset();
+            document.getElementById('result-box').classList.add('hidden');
+            document.getElementById('result-box').classList.remove('block');
+        }
+
+        const infoData = {
+            about: { title: "About Us", content: "<p>DMTools Woodworking is a free utility platform created by Dharmendra Singh. Our goal is to provide fast, reliable, and mathematically accurate calculation tools for contractors, builders, and hobbyist woodworkers across North America.</p>" },
+            privacy: { title: "Privacy Policy", content: "<p>Your privacy is strictly protected. <strong>We do not collect or store any of your calculation data.</strong> All board foot math is executed securely inside your own web browser (Client-Side). We utilize standard Google AdSense and analytics to keep this tool free.</p>" },
+            disclaimer: { title: "Disclaimer", content: "<p>Calculations provided by this tool are for estimation and planning purposes only. While we use standard industry formulas ((T x W x L)/12), actual lumber yard billing practices may vary sli
