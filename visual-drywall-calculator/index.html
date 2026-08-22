@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 🚀 COMPREHENSIVE US ON-PAGE SEO -->
+    <title>Visual Drywall & Stud Framing Calculator | Free Material Estimator</title>
+    <meta name="description" content="Instantly calculate 2x4 studs, top/bottom plates, and 4x8 drywall sheets for your framing project. Features a live 2D visual blueprint. 100% free tool.">
+    <meta name="keywords" content="drywall calculator, stud framing calculator, 16 inch oc spacing, wall framing visualizer, 2x4 stud estimator, DIY basement framing, US standard wall framing">
+    <link rel="canonical" href="https://sochcoremindset-del.github.io/dmtools/visual-drywall-calculator/">
+    
+    <!-- Tailwind CSS (Zero-Cost CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Custom UI Tweaks */
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8fafc; }
+        .blueprint-canvas { background-color: #0f172a; border-radius: 0.5rem; width: 100%; max-width: 100%; height: auto; box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3); }
+        .glass-panel { background: white; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 py-6 px-4 shadow-sm">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold text-blue-900 tracking-tight">Sochcore <span class="text-blue-600">Mindset Tools</span></h1>
+            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">Free US Utility</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Inputs & Logic -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="glass-panel p-6 rounded-2xl">
+                <h2 class="text-xl font-bold mb-4 text-gray-900">Project Dimensions</h2>
+                <p class="text-sm text-gray-500 mb-6">Enter your wall dimensions to generate an instant framing blueprint and material list.</p>
+                
+                <!-- Native Error Banner (No Alerts) -->
+                <div id="error-banner" class="hidden mb-4 p-3 bg-red-50 text-red-700 text-sm font-medium rounded-lg border border-red-200">
+                    Error message goes here.
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Wall Length -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Wall Length (Width)</label>
+                        <div class="flex gap-2">
+                            <div class="relative w-1/2">
+                                <input type="number" id="length-ft" min="0" class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Feet" value="12">
+                                <span class="absolute right-3 top-2.5 text-gray-400 text-sm">ft</span>
+                            </div>
+                            <div class="relative w-1/2">
+                                <input type="number" id="length-in" min="0" max="11" class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Inches" value="0">
+                                <span class="absolute right-3 top-2.5 text-gray-400 text-sm">in</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wall Height -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Wall Height</label>
+                        <div class="flex gap-2">
+                            <div class="relative w-1/2">
+                                <input type="number" id="height-ft" min="0" class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Feet" value="8">
+                                <span class="absolute right-3 top-2.5 text-gray-400 text-sm">ft</span>
+                            </div>
+                            <div class="relative w-1/2">
+                                <input type="number" id="height-in" min="0" max="11" class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Inches" value="0">
+                                <span class="absolute right-3 top-2.5 text-gray-400 text-sm">in</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stud Spacing -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Stud Spacing (On-Center)</label>
+                        <select id="stud-spacing" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
+                            <option value="16">16" O.C. (Standard Residential)</option>
+                            <option value="24">24" O.C. (Economy / Non-load bearing)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="calculate-btn" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition-all active:scale-95">
+                    Generate Blueprint & Estimate
+                </button>
+            </div>
+
+            <!-- Material Results -->
+            <div id="results-panel" class="glass-panel p-6 rounded-2xl hidden">
+                <h2 class="text-xl font-bold mb-4 text-gray-900 border-b pb-2">Material Estimate</h2>
+                <ul class="space-y-3">
+                    <li class="flex justify-between items-center">
+                        <span class="text-gray-600 font-medium">Vertical 2x4 Studs:</span>
+                        <span id="res-studs" class="font-bold text-lg text-blue-700">0</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <span class="text-gray-600 font-medium">Top/Bottom Plates (8ft):</span>
+                        <span id="res-plates" class="font-bold text-lg text-blue-700">0</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <span class="text-gray-600 font-medium">Drywall Sheets (4x8):</span>
+                        <span id="res-drywall" class="font-bold text-lg text-blue-700">0</span>
+                    </li>
+                    <li class="flex justify-between items-center pt-2 border-t mt-2">
+                        <span class="text-gray-800 font-bold">Total Wall Area:</span>
+                        <span id="res-area" class="font-bold text-gray-800">0 sq ft</span>
+                    </li>
+                </ul>
+                <p class="text-xs text-gray-400 mt-4 text-center">*Includes standard 10% waste margin for drywall.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Visual Canvas Renderer -->
+        <div class="lg:col-span-8 flex flex-col">
+            <div class="glass-panel p-6 rounded-2xl flex-grow flex flex-col">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">Live 2D Blueprint</h2>
+                        <p class="text-sm text-gray-500">Visualizing Studs & Drywall Layout</p>
+                    </div>
+                    <div class="flex gap-3 text-xs font-semibold text-gray-600">
+                        <div class="flex items-center gap-1"><span class="w-3 h-3 bg-gray-400 rounded-sm"></span> Studs</div>
+                        <div class="flex items-center gap-1"><span class="w-3 h-3 bg-cyan-400 opacity-50 border border-cyan-300 rounded-sm"></span> Drywall (4x8)</div>
+                    </div>
+                </div>
+                
+                <!-- HTML5 Canvas -->
+                <div class="relative w-full flex-grow flex items-center justify-center bg-gray-50 rounded-xl border border-gray-200 overflow-hidden min-h-[400px] p-4">
+                    <canvas id="blueprintCanvas" width="800" height="500" class="blueprint-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 🚀 COMPLIANT FOOTER (Using Strict Relative Paths) -->
+    <footer class="bg-white border-t border-gray-200 py-8 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex flex-wrap justify-center gap-6 mb-4 text-sm font-medium text-gray-600">
+                <a href="../about/" class="hover:text-blue-600 transition-colors">About Us</a>
+                <a href="../privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                <a href="../terms/" class="hover:text-blue-600 transition-colors">Terms of Service</a>
+                <a href="../disclaimer/" class="hover:text-blue-600 transition-colors">Disclaimer</a>
+            </div>
+            <p class="text-gray-500 text-sm">&copy; 2026 Sochcore Mindset Tools. All rights reserved. Designed for US DIYers & Solopreneurs.</p>
+        </div>
+    </footer>
+
+    <!-- Core Client-Side Logic (Zero-Server, Pure Math) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('calculate-btn');
+            const canvas = document.getElementById('blueprintCanvas');
+            const ctx = canvas.getContext('2d');
+            const errorBanner = document.getElementById('error-banner');
+            const resultsPanel = document.getElementById('results-panel');
+
+            // Set canvas size for high-DPI rendering
+            function setupCanvas() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 32; // padding offset
+                canvas.height = 400;
+            }
+
+            window.addEventListener('resize', () => {
+                setupCanvas();
+                calculateAndDraw();
+            });
+
+            // Handle pure Math & Drawing
+            function calculateAndDraw() {
+                // Get & Validate Inputs
+                const lFt = parseInt(document.getElementById('length-ft').value) || 0;
+                const lIn = parseInt(document.getElementById('length-in').value) || 0;
+                const hFt = parseInt(document.getElementById('height-ft').value) || 0;
+                const hIn = parseInt(document.getElementById('height-in').value) || 0;
+                const spacing = parseInt(document.getElementById('stud-spacing').value) || 16;
+
+                const totalLengthInches = (lFt * 12) + lIn;
+                const totalHeightInches = (hFt * 12) + hIn;
+
+                // NATIVE ERROR HANDLING (No alerts)
+                if (totalLengthInches <= 0 || totalHeightInches <= 0) {
+                    errorBanner.textContent = "Please enter valid wall dimensions greater than 0.";
+                    errorBanner.classList.remove('hidden');
+                    resultsPanel.classList.add('hidden');
+                    clearCanvas();
+                    return;
+                }
+                if (totalLengthInches > 1200 || totalHeightInches > 360) { // Practical limits: 100ft x 30ft
+                    errorBanner.textContent = "Dimensions too large for standard visualization (Max 100ft length).";
+                    errorBanner.classList.remove('hidden');
+                    return;
+                }
+                
+                errorBanner.classList.add('hidden');
+
+                // MATH CALCULATIONS
+                // 1. Studs (1 at start + 1 for every spacing interval)
+                let numStuds = Math.ceil(totalLengthInches / spacing) + 1;
+                // Add an extra stud for the end if it doesn't land perfectly on spacing (standard practice)
+                if (totalLengthInches % spacing !== 0) numStuds++; 
+
+                // 2. Plates (1 bottom, 2 top). Standard 8ft (96") lumber
+                const plateLength = 96; 
+                const platesPerRun = Math.ceil(totalLengthInches / plateLength);
+                const totalPlates = platesPerRun * 3; // 1 bottom, 2 top
+
+                // 3. Drywall (4x8 sheets = 32 sq ft). Horizontal install calculation.
+                const sqFt = (totalLengthInches * totalHeightInches) / 144;
+                const sheetsNeeded = Math.ceil((sqFt / 32) * 1.10); // Adding 10% waste factor
+
+                // Update UI
+                document.getElementById('res-studs').textContent = numStuds;
+                document.getElementById('res-plates').textContent = totalPlates;
+                document.getElementById('res-drywall').textContent = sheetsNeeded;
+                document.getElementById('res-area').textContent = sqFt.toFixed(1) + " sq ft";
+                resultsPanel.classList.remove('hidden');
+
+                // RENDER CANVAS (Live Blueprint)
+                drawBlueprint(totalLengthInches, totalHeightInches, spacing);
+            }
+
+            function clearCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Background
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            function drawBlueprint(widthInches, heightInches, spacingInches) {
+                clearCanvas();
+
+                // Margins & Scaling
+                const margin = 40;
+                const drawWidth = canvas.width - (margin * 2);
+                const drawHeight = canvas.height - (margin * 2);
+
+                const scaleX = drawWidth / widthInches;
+                const scaleY = drawHeight / heightInches;
+                // Maintain aspect ratio
+                const scale = Math.min(scaleX, scaleY); 
+
+                const finalW = widthInches * scale;
+                const finalH = heightInches * scale;
+                const startX = (canvas.width - finalW) / 2;
+                const startY = (canvas.height - finalH) / 2;
+
+                // 1. Draw Plates (Top and Bottom)
+                ctx.fillStyle = '#94a3b8'; // gray for lumber
+                const plateThickness = Math.max(2, 1.5 * scale); // 1.5 inches real thickness
+                
+                // Bottom Plate
+                ctx.fillRect(startX, startY + finalH - plateThickness, finalW, plateThickness);
+                // Top Plates (Double)
+                ctx.fillRect(startX, startY, finalW, plateThickness * 2);
+
+                // 2. Draw Studs (Vertical)
+                const studThickness = Math.max(2, 1.5 * scale);
+                let currentX = 0;
+                
+                ctx.fillStyle = '#cbd5e1';
+                while (currentX <= widthInches) {
+                    let px = startX + (currentX * scale);
+                    // Ensure it doesn't draw outside right bound
+                    if (px + studThickness > startX + finalW) px = startX + finalW - studThickness;
+                    
+                    ctx.fillRect(px, startY + (plateThickness * 2), studThickness, finalH - (plateThickness * 3));
+                    currentX += spacingInches;
+                }
+                // Draw end stud if needed
+                ctx.fillRect(startX + finalW - studThickness, startY + (plateThickness * 2), studThickness, finalH - (plateThickness * 3));
+
+                // 3. Draw Drywall Overlays (Semi-transparent cyan, horizontal installation)
+                // Standard sheet: 96" wide, 48" high
+                ctx.fillStyle = 'rgba(6, 182, 212, 0.25)';
+                ctx.strokeStyle = 'rgba(6, 182, 212, 0.8)';
+                ctx.lineWidth = 1;
+
+                for (let y = heightInches; y > 0; y -= 48) {
+                    let h = 48;
+                    if (y < 48) h = y; // Partial cut at top
+                    
+                    let drawY = startY + finalH - (heightInches - y + h) * scale;
+                    let drawH = h * scale;
+
+                    for (let x = 0; x < widthInches; x += 96) {
+                        let w = 96;
+                        if (x + 96 > widthInches) w = widthInches - x; // Partial cut at end
+                        
+                        let drawPx = startX + (x * scale);
+                        let drawW = w * scale;
+
+                        ctx.fillRect(drawPx, drawY, drawW, drawH);
+                        ctx.strokeRect(drawPx, drawY, drawW, drawH);
+                    }
+                }
+
+                // Add Dimensions Text
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '12px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                // Width text
+                ctx.fillText(`${(widthInches/12).toFixed(1)} ft`, startX + (finalW / 2), startY - 10);
+                // Height text (rotate)
+                ctx.save();
+                ctx.translate(startX - 15, startY + (finalH / 2));
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText(`${(heightInches/12).toFixed(1)} ft`, 0, 0);
+                ctx.restore();
+            }
+
+            // Initialize Setup & Listeners
+            setupCanvas();
+            calculateAndDraw(); // Initial draw with default values
+
+            btn.addEventListener('click', calculateAndDraw);
+            
+            // Add live update on input change for that viral interactive feel
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', calculateAndDraw);
+            });
+        });
+    </script>
+</body>
+</html>
+
