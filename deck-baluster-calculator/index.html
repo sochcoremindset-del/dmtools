@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 🚀 COMPREHENSIVE US ON-PAGE SEO -->
+    <title>Visual Deck Baluster Spacing Calculator | Equal Spindle Gap</title>
+    <meta name="description" content="Free visual deck baluster and spindle spacing calculator. Easily calculate equal gaps for your deck railing to meet the US 4-inch building code. Live 2D blueprint.">
+    <meta name="keywords" content="baluster spacing calculator, spindle spacing calculator, deck railing calculator, equal spacing calculator, 4 inch building code railing, DIY deck building tools">
+    <link rel="canonical" href="https://sochcoremindset-del.github.io/dmtools/deck-baluster-calculator/">
+    
+    <!-- Google Schema Markup (For Rich Organic Ranking) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Visual Deck Baluster Spacing Calculator",
+      "url": "https://sochcoremindset-del.github.io/dmtools/deck-baluster-calculator/",
+      "description": "Calculate equal spacing for deck balusters and spindles ensuring compliance with the US 4-inch sphere building code rule. Includes a live visual 2D layout.",
+      "applicationCategory": "Utility",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS (Zero-Cost CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8fafc; }
+        .glass-panel { background: white; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+        .blueprint-canvas { background-color: #0f172a; border-radius: 0.5rem; width: 100%; box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3); }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 py-6 px-4 shadow-sm">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold text-blue-900 tracking-tight">DM <span class="text-blue-600">Tools</span></h1>
+            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">Free US Utility</span>
+        </div>
+    </header>
+
+    <!-- Main Content (Calculator Section) -->
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Inputs & Logic -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="glass-panel p-6 rounded-2xl">
+                <h2 class="text-xl font-bold mb-4 text-gray-900">Railing Dimensions</h2>
+                <p class="text-sm text-gray-500 mb-6">Calculate perfectly equal gaps for your spindles (balusters) to meet US code.</p>
+                
+                <!-- Native Error Banner -->
+                <div id="error-banner" class="hidden mb-4 p-3 bg-red-50 text-red-700 text-sm font-medium rounded-lg border border-red-200"></div>
+
+                <div class="space-y-4">
+                    <!-- Total Rail Length -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Total Section Length (Inside to Inside)</label>
+                        <div class="relative">
+                            <input type="number" id="rail-length" min="0" step="0.125" class="w-full pl-3 pr-12 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="e.g. 72" value="72">
+                            <span class="absolute right-3 top-2.5 text-gray-400 text-sm">inches</span>
+                        </div>
+                    </div>
+
+                    <!-- Baluster Width -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Baluster (Spindle) Width</label>
+                        <select id="baluster-width" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            <option value="1.5">Standard 2x2 Wood (1.5" Actual)</option>
+                            <option value="0.75">Metal/Aluminum Spindle (0.75")</option>
+                            <option value="1.25">Square Metal (1.25")</option>
+                            <option value="custom">Custom Width...</option>
+                        </select>
+                    </div>
+                    
+                    <div id="custom-width-container" class="hidden">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Custom Width</label>
+                        <div class="relative">
+                            <input type="number" id="custom-width" min="0" step="0.125" class="w-full pl-3 pr-12 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" value="1.5">
+                            <span class="absolute right-3 top-2.5 text-gray-400 text-sm">inches</span>
+                        </div>
+                    </div>
+
+                    <!-- Target Gap -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Maximum Allowed Gap</label>
+                        <div class="relative">
+                            <input type="number" id="max-gap" min="1" step="0.125" max="4" class="w-full pl-3 pr-12 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none bg-green-50" value="3.875">
+                            <span class="absolute right-3 top-2.5 text-gray-500 text-sm">inches</span>
+                        </div>
+                        <p class="text-xs text-green-700 mt-1">*US Code requires a gap less than 4". (3.875" is safe).</p>
+                    </div>
+                </div>
+
+                <button id="calculate-btn" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition-all active:scale-95">
+                    Calculate Perfect Spacing
+                </button>
+            </div>
+
+            <!-- Material Results -->
+            <div id="results-panel" class="glass-panel p-6 rounded-2xl hidden">
+                <h2 class="text-xl font-bold mb-4 text-gray-900 border-b pb-2">Results & Cut List</h2>
+                <ul class="space-y-4">
+                    <li class="flex flex-col">
+                        <span class="text-gray-500 text-sm">Exact Equal Gap Between Balusters:</span>
+                        <span id="res-gap" class="font-bold text-2xl text-blue-700">0"</span>
+                    </li>
+                    <li class="flex flex-col pt-2 border-t border-gray-100">
+                        <span class="text-gray-500 text-sm">Total Balusters Needed:</span>
+                        <span id="res-count" class="font-bold text-xl text-gray-800">0</span>
+                    </li>
+                    <li id="code-status" class="pt-2 text-sm font-semibold text-green-600">
+                        ✅ Meets US 4-Inch Building Code
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Column: Visual Canvas Renderer -->
+        <div class="lg:col-span-8 flex flex-col">
+            <div class="glass-panel p-6 rounded-2xl flex-grow flex flex-col">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">Live 2D Blueprint</h2>
+                        <p class="text-sm text-gray-500">Visualizing railing section layout</p>
+                    </div>
+                </div>
+                
+                <!-- HTML5 Canvas -->
+                <div class="relative w-full flex-grow flex items-center justify-center bg-gray-50 rounded-xl border border-gray-200 overflow-hidden min-h-[350px] p-4">
+                    <canvas id="blueprintCanvas" height="350" class="blueprint-canvas w-full"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 🚀 SEO TEXT CONTENT SECTION (Crucial for Google Organic Ranking) -->
+    <section class="max-w-6xl mx-auto px-4 py-8 mb-8 text-gray-700">
+        <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">How to Calculate Deck Baluster Spacing?</h2>
+            <p class="mb-4">Calculating the exact equal spacing between deck balusters (or spindles) can be a frustrating mathematical challenge for DIY woodworkers and homeowners. If you miscalculate, your railing will look uneven, and worse, it might violate local building codes.</p>
+            
+            <h3 class="text-xl font-bold text-gray-800 mt-6 mb-2">The US 4-Inch Sphere Rule</h3>
+            <p class="mb-4">According to the US International Residential Code (IRC), deck railing gaps must be small enough that a 4-inch sphere cannot pass through them. This is a crucial safety measure to protect small children. Our <strong>Visual Baluster Spacing Calculator</strong> automatically factors in this rule. By defaulting to a maximum target gap of 3 7/8 inches (3.875"), it guarantees your gaps are perfectly uniform and safely under the legal limit.</p>
+            
+            <h3 class="text-xl font-bold text-gray-800 mt-6 mb-2">The Math Formula for Equal Spacing</h3>
+            <p class="mb-4">To manually find the perfect gap, you must use this formula:</p>
+            <ul class="list-disc pl-6 mb-4 space-y-2">
+                <li>Take the total inside length of your rail section.</li>
+                <li>Divide it by an estimated gap plus the baluster width to find the number of balusters.</li>
+                <li>Multiply the number of balusters by their width to get the total wood space.</li>
+                <li>Subtract the total wood space from the total rail length.</li>
+                <li>Divide the remaining space by the number of gaps (which is always Number of Balusters + 1).</li>
+            </ul>
+            <p>Instead of doing this complex trial-and-error math, simply input your measurements into our free tool above to generate an instant, perfectly spaced 2D visual layout.</p>
+        </div>
+    </section>
+
+    <!-- 🚀 COMPLIANT FOOTER (Using Strict Relative Paths for Custom Domain) -->
+    <footer class="bg-white border-t border-gray-200 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex flex-wrap justify-center gap-6 mb-4 text-sm font-medium text-gray-600">
+                <a href="../about/" class="hover:text-blue-600 transition-colors">About Us</a>
+                <a href="../privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                <a href="../terms/" class="hover:text-blue-600 transition-colors">Terms of Service</a>
+                <a href="../disclaimer/" class="hover:text-blue-600 transition-colors">Disclaimer</a>
+            </div>
+            <p class="text-gray-500 text-sm">&copy; 2026 DM Tools. All rights reserved. Designed for US DIYers & Homeowners.</p>
+        </div>
+    </footer>
+
+    <!-- Core Client-Side Logic (Zero-Server, Pure Math) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('calculate-btn');
+            const canvas = document.getElementById('blueprintCanvas');
+            const ctx = canvas.getContext('2d');
+            const errorBanner = document.getElementById('error-banner');
+            const resultsPanel = document.getElementById('results-panel');
+            
+            const widthSelect = document.getElementById('baluster-width');
+            const customWidthContainer = document.getElementById('custom-width-container');
+
+            // Handle custom width dropdown
+            widthSelect.addEventListener('change', (e) => {
+                if(e.target.value === 'custom') {
+                    customWidthContainer.classList.remove('hidden');
+                } else {
+                    customWidthContainer.classList.add('hidden');
+                }
+                calculateAndDraw();
+            });
+
+            function setupCanvas() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 32; 
+                calculateAndDraw();
+            }
+
+            window.addEventListener('resize', setupCanvas);
+
+            function calculateAndDraw() {
+                // Inputs
+                const length = parseFloat(document.getElementById('rail-length').value) || 0;
+                let balusterW = parseFloat(widthSelect.value);
+                if (widthSelect.value === 'custom') {
+                    balusterW = parseFloat(document.getElementById('custom-width').value) || 0;
+                }
+                const maxGap = parseFloat(document.getElementById('max-gap').value) || 3.875;
+
+                // Error Handling (No Alerts)
+                if (length <= 0 || balusterW <= 0 || maxGap <= 0) {
+                    errorBanner.textContent = "Please enter valid measurements greater than zero.";
+                    errorBanner.classList.remove('hidden');
+                    resultsPanel.classList.add('hidden');
+                    clearCanvas();
+                    return;
+                }
+                if (length < balusterW) {
+                    errorBanner.textContent = "Total length must be greater than a single baluster width.";
+                    errorBanner.classList.remove('hidden');
+                    resultsPanel.classList.add('hidden');
+                    clearCanvas();
+                    return;
+                }
+                
+                errorBanner.classList.add('hidden');
+
+                // CORE MATH LOGIC (Equal Spacing Calculation)
+                // 1. Estimate number of balusters needed
+                // Formula: length = (balusters * width) + ((balusters + 1) * gap)
+                // balusters = (length - gap) / (width + gap)
+                let numBalusters = Math.ceil((length - maxGap) / (balusterW + maxGap));
+                if (numBalusters < 0) numBalusters = 0;
+
+                // 2. Calculate actual exact gap
+                const totalWood = numBalusters * balusterW;
+                const remainingSpace = length - totalWood;
+                const numGaps = numBalusters + 1;
+                const exactGap = remainingSpace / numGaps;
+
+                // UI Updates
+                document.getElementById('res-count').textContent = numBalusters;
+                document.getElementById('res-gap').textContent = exactGap.toFixed(3) + " inches";
+                
+                const codeStatus = document.getElementById('code-status');
+                if(exactGap > 4) {
+                    codeStatus.innerHTML = "⚠️ Warning: Gap exceeds 4 inches (Check max gap setting).";
+                    codeStatus.className = "pt-2 text-sm font-semibold text-red-600";
+                } else {
+                    codeStatus.innerHTML = "✅ Meets US 4-Inch Building Code";
+                    codeStatus.className = "pt-2 text-sm font-semibold text-green-600";
+                }
+
+                resultsPanel.classList.remove('hidden');
+
+                // RENDER CANVAS (Live Blueprint)
+                drawBlueprint(length, balusterW, exactGap, numBalusters);
+            }
+
+            function clearCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0f172a'; // Slate-900 background
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            function drawBlueprint(totalL, bWidth, exactGap, count) {
+                clearCanvas();
+
+                const paddingX = 40;
+                const paddingY = 80;
+                const drawW = canvas.width - (paddingX * 2);
+                
+                // Scale visualization
+                const scaleX = drawW / totalL;
+                
+                // Fixed visual heights for aesthetic
+                const postW = 20; // Visual side posts
+                const topRailY = paddingY;
+                const railThickness = 15;
+                const balusterHeight = canvas.height - (paddingY * 2);
+                const bottomRailY = topRailY + balusterHeight - railThickness;
+
+                // 1. Draw Side Posts (Existing columns/walls)
+                ctx.fillStyle = '#64748b';
+                ctx.fillRect(paddingX - postW, topRailY - 10, postW, balusterHeight + 20); // Left post
+                ctx.fillRect(paddingX + drawW, topRailY - 10, postW, balusterHeight + 20); // Right post
+
+                // 2. Draw Top and Bottom Rails
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillRect(paddingX, topRailY, drawW, railThickness);
+                ctx.fillRect(paddingX, bottomRailY, drawW, railThickness);
+
+                // 3. Draw Balusters
+                ctx.fillStyle = '#cbd5e1';
+                let currentX = paddingX + (exactGap * scaleX);
+                const visualBalusterW = bWidth * scaleX;
+
+                for (let i = 0; i < count; i++) {
+                    ctx.fillRect(currentX, topRailY + railThickness, Math.max(1, visualBalusterW), balusterHeight - (railThickness * 2));
+                    currentX += visualBalusterW + (exactGap * scaleX);
+                }
+
+                // 4. Draw Dimension Lines and Text
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 1;
+                ctx.font = '12px Inter, sans-serif';
+                ctx.textAlign = 'center';
+
+                // Total Length Dimension
+                ctx.beginPath();
+                ctx.moveTo(paddingX, 40);
+                ctx.lineTo(paddingX + drawW, 40);
+                ctx.moveTo(paddingX, 35);
+                ctx.lineTo(paddingX, 45);
+                ctx.moveTo(paddingX + drawW, 35);
+                ctx.lineTo(paddingX + drawW, 45);
+                ctx.stroke();
+                ctx.fillText(`Total Length: ${totalL}"`, paddingX + (drawW / 2), 30);
+
+                // Gap Dimension (Zoomed out if too many balusters, just show first gap)
+                if (count > 0 && (exactGap * scaleX) > 30) {
+                    const gapCenter = paddingX + ((exactGap * scaleX) / 2);
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.fillText(`${exactGap.toFixed(2)}" Gap`, gapCenter, topRailY + (balusterHeight/2) );
+                }
+            }
+
+            // Initialize Setup & Listeners
+            // Slight timeout to ensure layout is complete before canvas setup
+            setTimeout(setupCanvas, 50);
+
+            btn.addEventListener('click', calculateAndDraw);
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', calculateAndDraw);
+            });
+        });
+    </script>
+</body>
+                      </html>
+                      
