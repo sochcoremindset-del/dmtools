@@ -269,6 +269,140 @@
                 // Add 12 inches for mounting allowances, convert to feet
                 const stringerLengthFt = Math.ceil((stringerLengthInches + 12) / 12);
 
-                // UI Updates
+                                // UI Updates
                 document.getElementById('res-rise').textContent = exactRise.toFixed(3) + '"';
-          
+                document.getElementById('res-steps').textContent = numRisers + " Risers (" + numTreads + " Treads)";
+                document.getElementById('res-stringer').textContent = stringerLengthFt + " ft Board";
+                document.getElementById('res-total-run').textContent = totalRunInches.toFixed(1) + '"';
+                
+                // Code Check
+                const codeStatus = document.getElementById('code-status');
+                if (exactRise > 7.75 || treadRun < 10) {
+                    codeStatus.innerHTML = "⚠️ Fails US IRC Code (Rise > 7.75\" or Run < 10\")";
+                    codeStatus.className = "pt-2 text-sm font-semibold text-red-600";
+                } else {
+                    codeStatus.innerHTML = "✅ Meets US Building Code (IRC)";
+                    codeStatus.className = "pt-2 text-sm font-semibold text-green-600";
+                }
+                
+                resultsPanel.classList.remove('hidden');
+
+                // RENDER CANVAS Blueprint
+                drawBlueprint(totalRiseInches, totalRunInches, exactRise, treadRun, numRisers, treadThick);
+            }
+
+            function clearCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0f172a'; // slate-900 background
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            function drawBlueprint(totalRise, totalRun, exactRise, exactRun, count, treadThick) {
+                clearCanvas();
+
+                const padding = 50;
+                const drawW = canvas.width - (padding * 2);
+                const drawH = canvas.height - (padding * 2);
+                
+                // Add a little extra space for the 2x12 depth (approx 11.25 inches)
+                const virtualRun = totalRun + 11.25; 
+                const virtualRise = totalRise + 11.25;
+
+                // Scale to fit
+                const scaleX = drawW / virtualRun;
+                const scaleY = drawH / virtualRise;
+                const scale = Math.min(scaleX, scaleY);
+                
+                // Center the drawing
+                const finalW = totalRun * scale;
+                const finalH = totalRise * scale;
+                const startX = (canvas.width - finalW) / 2;
+                const startY = (canvas.height + finalH) / 2; // Start from bottom left for stairs
+
+                // DRAW THE STRINGER 
+                ctx.beginPath();
+                
+                // 1. Start at bottom (Floor level)
+                let curX = startX;
+                // Bottom cut accounts for tread thickness
+                const bottomRiseVisual = (exactRise - treadThick) * scale;
+                let curY = startY;
+
+                ctx.moveTo(curX, curY);
+                
+                // Draw the zigzag going UP
+                for (let i = 0; i < count; i++) {
+                    let currentRiseVis = (i === 0) ? bottomRiseVisual : (exactRise * scale);
+                    
+                    // Go UP
+                    curY -= currentRiseVis;
+                    ctx.lineTo(curX, curY);
+                    
+                    // Go RIGHT (Run) - skip on the very last step if it attaches flush to the deck
+                    if (i < count - 1) {
+                        curX += (exactRun * scale);
+                        ctx.lineTo(curX, curY);
+                    }
+                }
+
+                // At the top, go back to create the 2x12 board thickness
+                const lumberDepthVisual = 11.25 * scale; // 2x12 is actual 11.25" wide
+                
+                // Drop down perpendicular to the stringer angle
+                // Stringer angle math
+                const angle = Math.atan2(totalRise, totalRun);
+                const dx = Math.sin(angle) * lumberDepthVisual;
+                const dy = Math.cos(angle) * lumberDepthVisual;
+                
+                ctx.lineTo(curX + dx, curY + dy);
+                
+                // Diagonal line back to bottom
+                ctx.lineTo(startX + dx, startY + dy);
+                
+                // Connect to start
+                ctx.lineTo(startX, startY);
+
+                // Fill and Stroke the wood
+                ctx.fillStyle = '#cbd5e1';
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#94a3b8';
+                ctx.stroke();
+
+                // Draw Ground and Deck reference lines
+                ctx.strokeStyle = '#38bdf8';
+                ctx.setLineDash([5, 5]);
+                // Ground
+                ctx.beginPath(); ctx.moveTo(startX - 20, startY); ctx.lineTo(startX + finalW + 50, startY); ctx.stroke();
+                // Deck
+                ctx.beginPath(); ctx.moveTo(startX - 20, startY - finalH); ctx.lineTo(curX + 50, startY - finalH); ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Add Dimension Texts
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '12px Inter, sans-serif';
+                ctx.textAlign = 'right';
+                
+                // Total Rise Text
+                ctx.fillText(`Total Rise: ${totalRise}"`, startX - 10, startY - (finalH/2));
+                
+                // Exact Rise/Run Text on first step
+                ctx.textAlign = 'left';
+                if(finalW > 100) {
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.fillText(`Rise: ${exactRise.toFixed(2)}"`, startX + 5, startY - bottomRiseVisual + 15);
+                    ctx.fillText(`Run: ${exactRun.toFixed(2)}"`, startX + (exactRun * scale)/2, startY - bottomRiseVisual - 5);
+                }
+            }
+
+            setTimeout(setupCanvas, 50);
+
+            btn.addEventListener('click', calculateAndDraw);
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', calculateAndDraw);
+            });
+        });
+    </script>
+</body>
+</html>
