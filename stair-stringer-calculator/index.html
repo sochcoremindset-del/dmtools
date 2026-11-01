@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 🚀 COMPREHENSIVE US ON-PAGE SEO -->
+    <title>Visual Stair Stringer Calculator | Rise & Run Layout Planner</title>
+    <meta name="description" content="Free visual stair stringer calculator. Instantly calculate exact stair rise, run, and stringer length to meet US building codes. Features a live 2D blueprint.">
+    <meta name="keywords" content="stair stringer calculator, rise and run calculator, stair calculator, step calculator, IRC building code stairs, deck stairs calculator, stringer layout tool">
+    <link rel="canonical" href="https://sochcoremindset-del.github.io/dmtools/stair-stringer-calculator/">
+    
+    <!-- Google Schema Markup (For Rich Organic Ranking) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Visual Stair Stringer & Rise/Run Calculator",
+      "url": "https://sochcoremindset-del.github.io/dmtools/stair-stringer-calculator/",
+      "description": "Calculate exact stair rise, tread run, and stringer length for deck and interior stairs. Ensures compliance with US IRC building codes with a live 2D visual layout.",
+      "applicationCategory": "Utility",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS (Zero-Cost CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8fafc; }
+        .glass-panel { background: white; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+        .blueprint-canvas { background-color: #0f172a; border-radius: 0.5rem; width: 100%; border: 1px solid #334155; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        /* Typography for SEO Article */
+        .seo-article h2 { color: #1e293b; font-size: 1.75rem; font-weight: 800; margin-top: 2rem; margin-bottom: 1rem; }
+        .seo-article h3 { color: #334155; font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .seo-article p { color: #475569; line-height: 1.75; margin-bottom: 1rem; }
+        .seo-article ul { list-style-type: disc; padding-left: 1.5rem; color: #475569; margin-bottom: 1.5rem; }
+        .seo-article li { margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 py-6 px-4 shadow-sm">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold text-blue-900 tracking-tight">DM <span class="text-blue-600">Tools</span></h1>
+            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">Free US Utility</span>
+        </div>
+    </header>
+
+    <!-- Main Content (Calculator Section) -->
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Inputs & Logic -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="glass-panel p-6 rounded-2xl">
+                <h2 class="text-xl font-bold mb-4 text-gray-900">Stair Dimensions</h2>
+                <p class="text-sm text-gray-500 mb-6">Enter your total height to generate a US code-compliant stair stringer blueprint.</p>
+                
+                <!-- Native Error Banner -->
+                <div id="error-banner" class="hidden mb-4 p-3 bg-red-50 text-red-700 text-sm font-medium rounded-lg border border-red-200"></div>
+
+                <div class="space-y-5">
+                    <!-- Total Rise -->
+                    <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                        <h3 class="text-sm font-bold text-gray-700 mb-3 border-b pb-1">1. Total Rise (Deck to Ground)</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs text-gray-600 mb-1">Feet</label>
+                                <input type="number" id="rise-ft" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" value="3">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-600 mb-1">Inches</label>
+                                <input type="number" id="rise-in" min="0" max="11.99" step="0.125" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" value="6.5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tread & Mount Settings -->
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <h3 class="text-sm font-bold text-slate-700 mb-3 border-b border-slate-200 pb-1">2. Step Preferences (IRC Standard)</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs text-slate-600 mb-1">Target Tread Run (Depth)</label>
+                                <div class="relative">
+                                    <input type="number" id="tread-run" min="10" step="0.125" class="w-full pl-3 pr-12 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 outline-none" value="10.5">
+                                    <span class="absolute right-3 top-2.5 text-slate-400 text-xs">inches</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mt-1">*US IRC Code requires a minimum 10" run.</p>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-600 mb-1">Tread Material Thickness</label>
+                                <div class="relative">
+                                    <input type="number" id="tread-thick" min="0" step="0.125" class="w-full pl-3 pr-12 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 outline-none" value="1.0">
+                                    <span class="absolute right-3 top-2.5 text-slate-400 text-xs">inches</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="calculate-btn" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition-all active:scale-95">
+                    Generate Stair Blueprint
+                </button>
+            </div>
+
+            <!-- Material Results -->
+            <div id="results-panel" class="glass-panel p-6 rounded-2xl hidden">
+                <h2 class="text-xl font-bold mb-4 text-gray-900 border-b pb-2">Cut List & Layout Data</h2>
+                <ul class="space-y-4">
+                    <li class="flex justify-between items-center">
+                        <span class="text-gray-600 font-medium">Exact Riser Height:</span>
+                        <span id="res-rise" class="font-bold text-xl text-blue-700">0"</span>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <span class="text-gray-600 font-medium">Number of Steps:</span>
+                        <span id="res-steps" class="font-bold text-lg text-gray-900">0</span>
+                    </li>
+                    <li class="flex flex-col pt-2 border-t border-gray-100">
+                        <span class="text-gray-500 text-sm">Minimum 2x12 Stringer Length:</span>
+                        <span id="res-stringer" class="font-bold text-xl text-slate-800">0 ft</span>
+                    </li>
+                    <li class="flex flex-col pt-2 border-t border-gray-100">
+                        <span class="text-gray-500 text-sm">Total Horizontal Run:</span>
+                        <span id="res-total-run" class="font-bold text-lg text-slate-700">0"</span>
+                    </li>
+                    <li id="code-status" class="pt-2 text-sm font-semibold text-green-600">
+                        ✅ Meets US Building Code (IRC)
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Column: Visual Canvas Renderer -->
+        <div class="lg:col-span-8 flex flex-col">
+            <div class="glass-panel p-6 rounded-2xl flex-grow flex flex-col">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">Live 2D Stringer Blueprint</h2>
+                        <p class="text-sm text-gray-500">Visualizing 2x12 lumber layout and cut marks</p>
+                    </div>
+                </div>
+                
+                <!-- HTML5 Canvas -->
+                <div class="relative w-full flex-grow flex items-center justify-center rounded-xl overflow-hidden min-h-[450px] p-2 bg-gray-50">
+                    <canvas id="blueprintCanvas" width="800" height="500" class="blueprint-canvas shadow-sm"></canvas>
+                </div>
+                <p class="text-xs text-gray-400 mt-2 text-center">*Bottom step shows shortened cut to account for tread thickness.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 🚀 MASSIVE SEO PILLAR ARTICLE (~1000 Words) -->
+    <section class="max-w-6xl mx-auto px-4 py-8 mb-12">
+        <article class="bg-white p-8 md:p-12 rounded-3xl border border-gray-200 shadow-sm seo-article">
+            <h2>The Ultimate Guide to Calculating and Cutting Stair Stringers</h2>
+            <p>Building a set of stairs for a deck, porch, or basement is often considered the ultimate test of a DIY carpenter's skills. Unlike framing a flat wall or laying a floor, stairs require precise geometric calculations. A single mathematical error of even a quarter-inch at the top step will compound as you move down, resulting in an unsafe, uneven staircase that will fail a local building inspection. By using a <strong>visual stair stringer calculator</strong>, you eliminate the complex manual math and get an exact, code-compliant cut list in seconds.</p>
+            <p>In this comprehensive guide, we will break down the terminology of stair building, the strict rules of the US Building Code, and how to successfully lay out your stringers using a framing square.</p>
+
+            <h3>Understanding the US Building Code (IRC) for Stairs</h3>
+            <p>In the United States, residential staircase construction is heavily regulated by the International Residential Code (IRC). These codes exist to prevent tripping hazards and ensure safe evacuation during emergencies. Our calculator automatically structures your layout to align with these critical rules:</p>
+            <ul>
+                <li><strong>Maximum Rise:</strong> The vertical height of a single step (the riser) cannot exceed <strong>7 3/4 inches (7.75")</strong>. Anything taller becomes a severe tripping hazard.</li>
+                <li><strong>Minimum Run:</strong> The horizontal depth of the step (the tread) must be a minimum of <strong>10 inches</strong>. This ensures an adult's foot can securely plant on the step without slipping off the edge.</li>
+                <li><strong>Uniformity:</strong> The most heavily enforced rule is that the greatest riser height cannot exceed the smallest riser height by more than 3/8 of an inch. In practice, professional carpenters aim for perfectly equal rises down to the 1/16th of an inch.</li>
+            </ul>
+
+            <h3>The Golden Rule of Stairs: Rise and Run</h3>
+            <p>Every successful stair project starts with determining the "Total Rise." The total rise is the exact vertical distance from your upper finished landing (e.g., the deck surface) to the lower finished landing (e.g., the concrete patio). Do not measure to the dirt; always measure to the final hard surface where the stairs will rest.</p>
+            <p>Once you have the total rise, the math works as follows:</p>
+            <ol class="list-decimal pl-6 mb-4 space-y-2 text-slate-600">
+                <li>Take the Total Rise (in inches) and divide it by a target step height (usually 7.25 or 7.5 inches) to find the estimated number of steps.</li>
+                <li>Because you cannot have a fraction of a step, round that number up to the nearest whole number. This gives you your Total Number of Risers.</li>
+                <li>Finally, divide your original Total Rise by the Total Number of Risers. This gives you the <strong>Exact Riser Height</strong> for every single step on the stringer.</li>
+            </ol>
+            <p>For example, if your deck is 42.5 inches off the concrete: 42.5 ÷ 7.5 = 5.66. Round up to 6 risers. Now, 42.5 ÷ 6 = 7.08 inches per riser. Our tool performs this precise calculation instantly.</p>
+
+            <h3>How to Layout a Stringer with a Framing Square</h3>
+            <p>The structural backbone of your stairs is the stringer, typically cut from heavy-duty 2x12 pressure-treated lumber. Once our calculator gives you the exact rise and run, you will transfer those numbers to the wood using a carpenter's framing square (sometimes equipped with brass stair gauges).</p>
+            <p>Place the framing square on the edge of the 2x12. Align the exact "Rise" measurement on the short arm of the square (the tongue) with the edge of the board, and align the exact "Run" measurement on the long arm (the body) with the same edge. Trace the zigzag pattern along the outside of the square. Slide the square down the board, aligning your next mark precisely with the end of the previous line, and repeat this process for the total number of stairs.</p>
+            
+            <h3>Accounting for Tread Thickness: The Bottom Cut</h3>
+            <p>One of the most common and devastating mistakes a beginner can make is forgetting to adjust the bottom of the stringer for tread thickness. When you attach a 1-inch thick wooden tread to the top of your cut stringer, it increases the height of every step. While the middle steps remain uniform (because the step below it was also raised by 1 inch), the very first step resting on the ground will suddenly be 1 inch too tall, violating the strict IRC uniformity code.</p>
+            <p>To fix this, you must "drop the stringer." You simply subtract the thickness of your tread material from the bottom-most vertical cut of the 2x12 stringer. Our visual calculator accounts for this. If you input a 1-inch tread thickness, you will notice the bottom-most vertical line on the generated 2D blueprint is intentionally drafted 1-inch shorter than the rest of the risers.</p>
+
+            <h3>Determining 2x12 Lumber Length</h3>
+            <p>Buying lumber requires knowing how long your stringer will be diagonally. The total length of the stringer is calculated using the Pythagorean theorem (A² + B² = C²), where A is the total rise and B is the total run. Our calculator runs this geometry in the background and tells you the absolute minimum length of 2x12 lumber you need to purchase at the hardware store. Always buy a board that is at least 1 to 2 feet longer than the mathematical minimum to account for the mounting cuts at the top and the anchoring cuts at the bottom.</p>
+            <p>By relying on accurate, code-compliant mathematical planning, your DIY stair project will result in a sturdy, safe, and professional-looking staircase that will last for decades. Input your total rise into the tool above to generate your custom cut list and blueprint today!</p>
+        </article>
+    </section>
+
+    <!-- 🚀 COMPLIANT FOOTER (Using Strict Relative Paths for Custom Domain) -->
+    <footer class="bg-white border-t border-gray-200 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex flex-wrap justify-center gap-6 mb-4 text-sm font-medium text-gray-600">
+                <a href="../about/" class="hover:text-blue-600 transition-colors">About Us</a>
+                <a href="../privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                <a href="../terms/" class="hover:text-blue-600 transition-colors">Terms of Service</a>
+                <a href="../disclaimer/" class="hover:text-blue-600 transition-colors">Disclaimer</a>
+            </div>
+            <p class="text-gray-500 text-sm">&copy; 2026 DM Tools. All rights reserved. Built for US DIYers.</p>
+        </div>
+    </footer>
+
+    <!-- Core Client-Side Logic (Zero-Server, Pure Math) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('calculate-btn');
+            const canvas = document.getElementById('blueprintCanvas');
+            const ctx = canvas.getContext('2d');
+            const errorBanner = document.getElementById('error-banner');
+            const resultsPanel = document.getElementById('results-panel');
+
+            function setupCanvas() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 16; 
+                calculateAndDraw();
+            }
+
+            window.addEventListener('resize', setupCanvas);
+
+            function calculateAndDraw() {
+                // Inputs
+                const riseFt = parseFloat(document.getElementById('rise-ft').value) || 0;
+                const riseIn = parseFloat(document.getElementById('rise-in').value) || 0;
+                const treadRun = parseFloat(document.getElementById('tread-run').value) || 10.5;
+                const treadThick = parseFloat(document.getElementById('tread-thick').value) || 0;
+
+                const totalRiseInches = (riseFt * 12) + riseIn;
+
+                // Error Handling
+                if (totalRiseInches <= 0 || treadRun <= 0) {
+                    errorBanner.textContent = "Please enter a valid total rise and tread run.";
+                    errorBanner.classList.remove('hidden');
+                    resultsPanel.classList.add('hidden');
+                    clearCanvas();
+                    return;
+                }
+                
+                errorBanner.classList.add('hidden');
+
+                // CORE MATH LOGIC
+                // 1. Calculate number of risers based on US target (7.5" is ideal target)
+                let numRisers = Math.ceil(totalRiseInches / 7.5);
+                
+                // 2. Exact Rise per step
+                let exactRise = totalRiseInches / numRisers;
+                
+                // Re-adjust if rise is too low (e.g. less than 6), though rare for outdoor stairs
+                // Just ensuring we don't violate max 7.75" IRC rule
+                if (exactRise > 7.75) {
+                    numRisers += 1;
+                    exactRise = totalRiseInches / numRisers;
+                }
+
+                // Standard flush mount logic: Number of Treads is always Risers - 1
+                const numTreads = numRisers - 1;
+                const totalRunInches = numTreads * treadRun;
+
+                // 3. Stringer Length (Pythagorean theorem)
+                const stringerLengthInches = Math.sqrt(Math.pow(totalRiseInches, 2) + Math.pow(totalRunInches, 2));
+                // Add 12 inches for mounting allowances, convert to feet
+                const stringerLengthFt = Math.ceil((stringerLengthInches + 12) / 12);
+
+                // UI Updates
+                document.getElementById('res-rise').textContent = exactRise.toFixed(3) + '"';
+          
